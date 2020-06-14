@@ -1,4 +1,4 @@
-import { makeSetter } from "./setter"
+import { makeSetter } from "../setter"
 
 interface Street {
     num: number
