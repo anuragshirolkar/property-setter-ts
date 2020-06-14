@@ -1,13 +1,28 @@
+/**
+ * Setter object for modifying a field of type `Prop` among the descendents
+ * of the given Object of type `Obj`.
+ */
+export interface Setter<Obj, Field> {
+    /**
+     * Returns copy of Obj with the property updated to prop
+     * @param prop new value of the field
+     */
+    to(prop: Field): Obj
 
-export interface Setter<A, B> {
-    to(b: B): A
-    set<C extends keyof B>(c: C): Setter<A, B[C]>
+    /**
+     * @param subP descriptor of the subField to be updated
+     */
+    set<SubField extends keyof Field>(subP: SubField): Setter<Obj, Field[SubField]>
 }
 
-export function makeSetter<T>(target: T): Setter<T, T> {
+/**
+ * Returns the settable version of the object
+ * @param obj the object to be modified.
+ */
+export function makeSetter<Obj>(obj: Obj): Setter<Obj, Obj> {
     return {
         to: value => value,
-        set: prop => transform(makeSetter(target[prop]), target, prop)
+        set: prop => transform(makeSetter(obj[prop]), obj, prop)
     }
 }
 

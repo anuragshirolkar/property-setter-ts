@@ -36,6 +36,7 @@ const employee: Employee = {
 
 let settableEmployee = makeSetter(employee)
 
+// Update a deeply nested field.
 let newEmployee = settableEmployee.set("company").set("address").set("street").set("num").to(3)
 
 console.log(employee.company.address.street.num) // prints 23
