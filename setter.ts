@@ -4,18 +4,6 @@ export interface Setter<A, B> {
     set<C extends keyof B>(c: C): Setter<A, B[C]>
 }
 
-export function makeSetters1<T>(target: T) {
-    return function <P extends keyof T>(prop: P): Setter<T, T[P]> {
-        return {
-            to: value => ({
-                ...target,
-                [prop]: value
-            }),
-            set: prop2 => transform(makeSetters1(target[prop])(prop2), target, prop)
-        }
-    }
-}
-
 export function makeSetter<T>(target: T): Setter<T, T> {
     return {
         to: value => value,
@@ -28,8 +16,6 @@ function transform<A, B extends keyof A, C>(s: Setter<A[B], C>, target: A, prop:
         ...target,
         [prop]: s.to(c)
     })
-    return {
-        to,
-        set: (c:any) => transform(s.set(c), target, prop)
-    }
+    let set = (c:any) => transform(s.set(c), target, prop)
+    return { to, set }
 }
