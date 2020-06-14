@@ -1,4 +1,4 @@
-import { makeSetters } from "./setter"
+import { makeSetter } from "./setter"
 
 interface Street {
     num: number
@@ -34,9 +34,9 @@ const employee: Employee = {
     }
 }
 
-let settableEmployee = makeSetters(employee)
+let settableEmployee = makeSetter(employee)
 
-let newEmployee = settableEmployee("company").set("address").set("street").set("num").to(3)
+let newEmployee = settableEmployee.set("company").set("address").set("street").set("num").to(3)
 
 console.log(employee.company.address.street.num) // prints 23
 console.log(newEmployee.company.address.street.num) // prints 3
